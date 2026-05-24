@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptForge — AI Creativity Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#0a0a0f;--s1:#12121a;--s2:#1a1a2e;--ac:#7c3aed;--ac2:#a855f7;--ac3:#c084fc;--t:#e2e8f0;--m:#64748b;--bd:#1e293b}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100vh}
+        .g-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:radial-gradient(ellipse at 20% 20%,rgba(124,58,237,.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(168,85,247,.1) 0%,transparent 50%)}
+        nav{position:sticky;top:0;z-index:100;padding:1rem 2rem;background:rgba(10,10,15,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+        .logo{font-family:'Space Grotesk';font-weight:700;font-size:1.5rem}.logo span{background:linear-gradient(135deg,var(--ac),var(--ac3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .nl{display:flex;gap:1.5rem;list-style:none}.nl a{color:var(--m);text-decoration:none;transition:.3s;font-size:.9rem}.nl a:hover{color:var(--ac3)}
+        .ct{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:2rem}
+        .hero{text-align:center;padding:6rem 2rem 4rem}
+        .hero h1{font-family:'Space Grotesk';font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;line-height:1.1;margin-bottom:1.5rem}
+        .hero h1 .gr{background:linear-gradient(135deg,#7c3aed,#a855f7,#c084fc,#e879f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero p{font-size:1.2rem;color:var(--m);max-width:600px;margin:0 auto 2rem;line-height:1.7}
+        .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;border-radius:12px;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:all .3s;text-decoration:none}
+        .btn-p{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;box-shadow:0 4px 20px rgba(124,58,237,.4)}.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,.5)}
+        .btn-g{background:0 0;color:var(--t);border:1px solid var(--bd)}.btn-g:hover{border-color:var(--ac)}
+        .feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;padding:4rem 0}
+        .card{background:var(--s1);border:1px solid var(--bd);border-radius:16px;padding:2rem;transition:all .3s}.card:hover{border-color:var(--ac);transform:translateY(-4px);box-shadow:0 8px 40px rgba(124,58,237,.15)}
+        .ci{font-size:2.5rem;margin-bottom:1rem}.card h3{font-family:'Space Grotesk';font-size:1.3rem;margin-bottom:.75rem}.card p{color:var(--m);line-height:1.6}
+        .gen{background:var(--s1);border:1px solid var(--bd);border-radius:20px;padding:2.5rem;margin:2rem 0}
+        .gen h2{font-family:'Space Grotesk';font-size:1.8rem;margin-bottom:1.5rem;text-align:center}
+        .gc{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;justify-content:center}
+        .ch{padding:.5rem 1.2rem;border-radius:100px;border:1px solid var(--bd);background:var(--s2);color:var(--m);cursor:pointer;font-size:.85rem;transition:all .3s}
+        .ch.on,.ch:hover{border-color:var(--ac);color:var(--ac3);background:rgba(124,58,237,.1)}
+        textarea{width:100%;min-height:120px;background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:1rem;color:var(--t);font-family:inherit;font-size:1rem;resize:vertical;outline:0}
+        textarea:focus{border-color:var(--ac)}
+        .out{margin-top:1.5rem;padding:1.5rem;background:var(--bg);border:1px solid var(--bd);border-radius:12px;min-height:80px;display:none}.out.show{display:block}
+        .ol{font-size:.8rem;color:var(--ac3);text-transform:uppercase;letter-spacing:1px;margin-bottom:.75rem}
+        .ot{color:var(--t);line-height:1.7;white-space:pre-wrap}
+        .pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;padding:2rem 0}
+        .pc{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:1.5rem;cursor:pointer;transition:all .3s}.pc:hover{border-color:var(--ac);transform:translateY(-2px)}
+        .pc .tg{display:inline-block;padding:.2rem .6rem;background:rgba(124,58,237,.15);color:var(--ac3);border-radius:6px;font-size:.75rem;margin-bottom:.75rem}
+        .pc h4{font-size:1rem;margin-bottom:.5rem}.pc p{color:var(--m);font-size:.85rem;line-height:1.5}
+        footer{text-align:center;padding:3rem;color:var(--m);font-size:.85rem;border-top:1px solid var(--bd)}
+        @keyframes fu{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.an{animation:fu .6s ease forwards}.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}
+        @media(max-width:600px){nav{padding:.75rem 1rem}.nl{gap:.75rem}.hero{padding:3rem 1rem 2rem}.gen{padding:1.5rem}}
+    </style>
+</head>
+<body>
+<div class="g-bg"></div>
+<nav><div class="logo"><span>⚡ PromptForge</span></div><ul class="nl"><li><a href="#features">Features</a></li><li><a href="#generator">Generator</a></li><li><a href="#gallery">Gallery</a></li></ul></nav>
+<div class="ct">
+<section class="hero">
+<h1 class="an">Forge Your<br><span class="gr">Creative Vision</span></h1>
+<p class="an d1">AI-powered creativity studio. Generate stunning prompts for art, writing, music, and beyond.</p>
+<div class="an d2" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="#generator" class="btn btn-p">✨ Start Creating</a><a href="#gallery" class="btn btn-g">Browse Gallery</a></div>
+</section>
+<section id="features"><div class="feat">
+<div class="card an d1"><div class="ci">🎨</div><h3>Art & Image Prompts</h3><p>Generate detailed prompts for Midjourney, DALL-E, Stable Diffusion. Control style, mood, composition.</p></div>
+<div class="card an d2"><div class="ci">✍️</div><h3>Creative Writing</h3><p>Story starters, character concepts, world-building prompts. Overcome writer's block instantly.</p></div>
+<div class="card an d3"><div class="ci">🎵</div><h3>Music & Audio</h3><p>Craft prompts for AI music generators. Define genre, mood, instruments, and emotional arc.</p></div>
+<div class="card an d1"><div class="ci">🧠</div><h3>Brainstorm Engine</h3><p>AI-powered idea generation for projects, startups, campaigns, and creative challenges.</p></div>
+<div class="card an d2"><div class="ci">📐</div><h3>Design Prompts</h3><p>Generate UI/UX design briefs, color palette descriptions, typography and layout concepts.</p></div>
+<div class="card an d3"><div class="ci">🎬</div><h3>Video & Animation</h3><p>Storyboard prompts, scene descriptions, and motion design concepts for video production.</p></div>
+</div></section>
+<section id="generator"><div class="gen">
+<h2>⚡ Prompt Generator</h2>
+<div class="gc"><span class="ch on" onclick="sel(this)">🎨 Art</span><span class="ch" onclick="sel(this)">✍️ Writing</span><span class="ch" onclick="sel(this)">🎵 Music</span><span class="ch" onclick="sel(this)">🎬 Video</span><span class="ch" onclick="sel(this)">🧠 Brainstorm</span></div>
+<textarea id="idea" placeholder="Describe your creative idea... e.g. &quot;A futuristic underwater city at sunset&quot;"></textarea>
+<div style="text-align:center;margin-top:1rem"><button class="btn btn-p" onclick="gen()">⚡ Generate Prompt</button></div>
+<div class="out" id="ob"><div class="ol">Generated Prompt</div><div class="ot" id="ot"></div><div style="margin-top:1rem;text-align:right"><button class="btn btn-g" onclick="cp()" style="font-size:.85rem;padding:.5rem 1rem">📋 Copy</button></div></div>
+</div></section>
+<section id="gallery"><h2 style="font-family:'Space Grotesk';font-size:1.8rem;text-align:center;margin-bottom:.5rem">🌟 Prompt Gallery</h2>
+<p style="text-align:center;color:var(--m);margin-bottom:1rem">Click any card to use as starting point</p><div class="pg" id="pg"></div></section>
+</div>
+<footer><p>PromptForge — AI Creativity Studio. Built with ❤️</p></footer>
+<script>
+let sc='Art';
+const tpl={
+Art:i=>`${i}, ultra-detailed, professional digital art, trending on ArtStation, 8K resolution, cinematic lighting, volumetric atmosphere, dramatic composition, rich color palette, masterpiece quality, sharp focus, intricate details`,
+Writing:i=>`Write a compelling narrative about: ${i}. Use vivid sensory details, complex character development, unexpected plot twists, and emotional depth. Show-don't-tell with rich metaphors.`,
+Music:i=>`Create a ${i} composition with layered instrumentation, dynamic range, emotional progression, organic textures mixed with electronic elements, spatial audio design.`,
+Video:i=>`${i}, cinematic 4K footage, anamorphic lens flare, smooth camera movement, professional color grading, atmospheric fog, golden hour lighting, film grain`,
+Brainstorm:i=>`Innovative concept: ${i}. Consider the intersection of technology and human needs. What problem does this solve? Who is the audience? What makes this 10x better?`
+};
+const gal=[
+{t:'Art',n:'Neon Dreamscape',d:'Cyberpunk city reflecting in rain puddles, neon signs, flying cars overhead'},
+{t:'Art',n:'Crystal Cavern',d:'Bioluminescent cave with floating crystals, underground lake, ethereal mist'},
+{t:'Writing',n:'The Last Lighthouse',d:'A lighthouse keeper discovers the light is a beacon for interdimensional travelers'},
+{t:'Writing',n:'Memory Merchant',d:'In a world where memories can be bought, a detective investigates stolen childhood memories'},
+{t:'Music',n:'Rainfall Synthesis',d:'Ambient electronic combining rain field recordings with synthesized pads and glitchy percussion'},
+{t:'Music',n:'Solar Winds',d:'Orchestral space opera blending traditional strings with modular synth and choir'},
+{t:'Video',n:'Paper World',d:'Stop-motion origami world coming to life, paper creatures exploring paper landscapes'},
+{t:'Brainstorm',n:'AI Art Therapy',d:'Platform combining AI art generation with therapeutic journaling for mental health'},
+{t:'Brainstorm',n:'Sound Garden',d:'Interactive installation where plants generate music based on growth and weather'}
+];
+function sel(e){document.querySelectorAll('.ch').forEach(c=>c.classList.remove('on'));e.classList.add('on');sc=e.textContent.trim().split(' ').slice(1).join(' ')}
+function gen(){const v=document.getElementById('idea').value.trim();if(!v)return;document.getElementById('ot').textContent=tpl[sc](v);document.getElementById('ob').classList.add('show')}
+function cp(){navigator.clipboard.writeText(document.getElementById('ot').textContent);const b=event.target;b.textContent='✓ Copied!';setTimeout(()=>b.textContent='📋 Copy',2e3)}
+function lg(){document.getElementById('pg').innerHTML=gal.map(p=>`<div class="pc" onclick="up(this)" data-text="${p.d}"><span class="tg">${p.t}</span><h4>${p.n}</h4><p>${p.d}</p></div>`).join('')}
+function up(c){document.getElementById('idea').value=c.dataset.text;document.getElementById('generator').scrollIntoView({behavior:'smooth'})}
+lg();
+</script>
+</body>
+</html>
