@@ -1,0 +1,28 @@
+# PromptForge Configuration
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
+  cors_origins:
+    - "*"
+
+generator:
+  default_style: "detailed"
+  max_tokens: 500
+  temperature: 0.8
+  enhance_by_default: true
+
+categories:
+  enabled:
+    - art
+    - writing
+    - music
+    - video
+    - brainstorm
+    - design
+
+enhancer:
+  quality_boost: true
+  style_modifiers: true
+  max_additions: 8
